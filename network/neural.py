@@ -37,8 +37,8 @@ class NeuralNetwork(object):
 
         self.w_htoo+=w_htoo_c
         self.w_itoh+=w_itoh_c
-        print(w_htoo_c)
-        print(w_itoh_c)
+        #w_htoo_c)
+        #print(w_itoh_c)
 
 
     def query(self,inputs):
@@ -49,16 +49,7 @@ class NeuralNetwork(object):
             outputs=self.active_func(inputs)
         return outputs
 
-
-
-
-
-inodes=3
-hnodes=3
-onodes=3
-lr=0.5
-net=NeuralNetwork(inodes,hnodes,onodes,lr)
-net.train([1,2,3],[0.9,0.9,0.9])
+#print(type(numpy.array(numpy.zeros(10))))
 #l1=[1,2,3]
 #l2=[1,2,3]
 #a1=numpy.array(l1)
