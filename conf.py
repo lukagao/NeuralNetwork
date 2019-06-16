@@ -9,3 +9,4 @@ hidden_nodes=100
 output_nodes=10
 learning_rate=0.28
 weights=path.join(path.abspath(path.dirname(__file__)),'weights.csv')
+img_path='D:\\DevelopTool\\Workspace\\Git\\AIData\\image\\ssh.png'
