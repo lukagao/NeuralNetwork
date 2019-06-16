@@ -33,10 +33,12 @@ class TrainNet(object):
 
     def do_save(self,path,weights,mode):
         with open(path, mode) as f:
-            w_list = weights.tolist()
-            for item in w_list:
-                for weight in item:
-                    f.write(str(weight) + ',')
+            w_list = weights.flatten()
+            size=len(w_list)
+            for index in range(size):
+                f.write(str(w_list[index]))
+                if index < (size-1):
+                    f.write(',')
             f.write('\n')
 
 

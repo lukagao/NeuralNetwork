@@ -27,8 +27,8 @@ class NeuralNetwork(object):
         print('use exist weights')
         with open(conf.weights, 'r') as f:
             l = f.readlines()
-            w_itoh = numpy.asfarray(l[0].split(',')[:-1]).reshape(self.hnodes,self.inodes)
-            w_htoo = numpy.asfarray(l[1].split(',')[:-1]).reshape(self.onodes,self.hnodes)
+            w_itoh = numpy.asfarray(l[0].split(',')).reshape(self.hnodes,self.inodes)
+            w_htoo = numpy.asfarray(l[1].split(',')).reshape(self.onodes,self.hnodes)
         return w_itoh,w_htoo
 
     def train(self,inputs,targets):
