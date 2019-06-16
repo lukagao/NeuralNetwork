@@ -24,4 +24,21 @@ class TrainNet(object):
             targets[value] = 0.99
             self.net.train(inputs, targets)
         self.trainFile.close()
+        self.save_weights(self.net.w_itoh,self.net.w_htoo)
         return self.net
+
+    def save_weights(self,w_itoh,w_htoo):
+        self.do_save(conf.weights,w_itoh,'w')
+        self.do_save(conf.weights,w_htoo,'a')
+
+    def do_save(self,path,weights,mode):
+        with open(path, mode) as f:
+            w_list = weights.tolist()
+            for item in w_list:
+                for weight in item:
+                    f.write(str(weight) + ',')
+            f.write('\n')
+
+
+
+

@@ -1,5 +1,7 @@
 import numpy
 from scipy import special
+from os import path
+import conf
 
 class NeuralNetwork(object):
 
@@ -13,10 +15,21 @@ class NeuralNetwork(object):
         self.weights=self.init_weight()
 
     def init_weight(self):
-        self.w_itoh=numpy.random.normal(0.0,pow(self.hnodes,-0.5),(self.hnodes,self.inodes))
-        self.w_htoo=numpy.random.normal(0.0,pow(self.onodes,-0.5),(self.onodes,self.hnodes))
+        if path.exists(conf.weights):
+            self.w_itoh,self.w_htoo=self.load_weights()
+        else:
+            self.w_itoh=numpy.random.normal(0.0,pow(self.hnodes,-0.5),(self.hnodes,self.inodes))
+            self.w_htoo=numpy.random.normal(0.0,pow(self.onodes,-0.5),(self.onodes,self.hnodes))
         l=[self.w_itoh,self.w_htoo]
         return l
+
+    def load_weights(self):
+        print('use exist weights')
+        with open(conf.weights, 'r') as f:
+            l = f.readlines()
+            w_itoh = numpy.asfarray(l[0].split(',')[:-1]).reshape(self.hnodes,self.inodes)
+            w_htoo = numpy.asfarray(l[1].split(',')[:-1]).reshape(self.onodes,self.hnodes)
+        return w_itoh,w_htoo
 
     def train(self,inputs,targets):
         targets=numpy.array(targets,ndmin=2).T
@@ -49,7 +62,7 @@ class NeuralNetwork(object):
             outputs=self.active_func(inputs)
         return outputs
 
-#print(type(numpy.array(numpy.zeros(10))))
+
 #l1=[1,2,3]
 #l2=[1,2,3]
 #a1=numpy.array(l1)

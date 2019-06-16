@@ -1,4 +1,3 @@
-from network.trainNet import TrainNet
 import conf
 import numpy
 class TestNet(object):
