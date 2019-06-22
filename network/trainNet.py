@@ -22,7 +22,7 @@ class TrainNet(object):
                 value = int(image_array[0])
                 targets[value] = 0.99
                 self.net.train(inputs, targets)
-        self.save_weights(self.net.w_itoh,self.net.w_htoo)
+        #self.save_weights(self.net.w_itoh,self.net.w_htoo)
         return self.net
 
     def save_weights(self,w_itoh,w_htoo):
