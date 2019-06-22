@@ -7,6 +7,6 @@ testData='D:\\DevelopTool\\Workspace\\Git\\AIData\\mnist\\test\\mnist_test.csv'
 input_nodes=784
 hidden_nodes=100
 output_nodes=10
-learning_rate=0.3
+learning_rate=0.7
 weights=path.join(path.abspath(path.dirname(__file__)),'weights.csv')
 img_path='D:\\DevelopTool\\Workspace\\Git\\AIData\\image\\ssh.png'

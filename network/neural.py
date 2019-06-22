@@ -16,7 +16,6 @@ class AffineLayer(object):
     def backward(self,do):
         dx=numpy.dot(do,self.w.T)
         self.dw=numpy.dot(self.x.T,do)
-        self.w-=self.dw
         return dx
 
 
@@ -53,20 +52,20 @@ class NeuralNetwork(object):
         self.hnodes=hnodes
         self.onodes=onodes
         self.lr=lr
-        self.w_keys=['w1','w2']
+        self.w_keys=['Affine1','Affine2']
         self.weights = self.init_weight()
         self.layers=self.init_layers()
         self.lastLayer=SquareErrorLayer()
 
     def init_weight(self):
-        weights={}
+        weights=OrderedDict()
         if path.exists(conf.weights):
             w1,w2=self.load_weights()
         else:
             w1=numpy.random.normal(0.0,pow(self.hnodes,-0.5),(self.inodes,self.hnodes))
             w2=numpy.random.normal(0.0,pow(self.onodes,-0.5),(self.hnodes,self.onodes))
-        weights['w1']=w1
-        weights['w2']=w2
+        weights['Affine1']=w1
+        weights['Affine2']=w2
         return weights
 
     def load_weights(self):
@@ -79,9 +78,9 @@ class NeuralNetwork(object):
 
     def init_layers(self):
         layers=OrderedDict()
-        layers['Affine1']=AffineLayer(self.weights['w1'])
+        layers['Affine1']=AffineLayer(self.weights['Affine1'])
         layers['Sigmoid1']=SigmoidLayer()
-        layers['Affine2'] = AffineLayer(self.weights['w2'])
+        layers['Affine2'] = AffineLayer(self.weights['Affine2'])
         layers['Sigmoid2'] = SigmoidLayer()
         return layers
 
@@ -102,6 +101,11 @@ class NeuralNetwork(object):
         layers.reverse()
         for layer in layers:
             do=layer.backward(do)
+            if isinstance(layer,AffineLayer):
+                layer.w-=self.lr*layer.dw
+        for key in self.w_keys:
+            self.weights[key]=self.layers[key].w
+
 
 
 

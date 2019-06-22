@@ -22,12 +22,14 @@ class TrainNet(object):
                 value = int(image_array[0])
                 targets[value] = 0.99
                 self.net.train(inputs, targets)
-        #self.save_weights(self.net.w_itoh,self.net.w_htoo)
+        #self.save_weights(list(self.net.weights.values()))
         return self.net
 
-    def save_weights(self,w_itoh,w_htoo):
-        self.do_save(conf.weights,w_itoh,'w')
-        self.do_save(conf.weights,w_htoo,'a')
+    def save_weights(self):
+        weights=list(self.net.weights.values())
+        self.do_save(conf.weights,weights[0],'w')
+        for index in range(1,len(weights)):
+            self.do_save(conf.weights,weights[index],'a')
 
     def do_save(self,path,weights,mode):
         with open(path, mode) as f:
