@@ -1,47 +1,8 @@
 import numpy
-from scipy import special
 from os import path
 import conf
 from collections import OrderedDict
-
-class AffineLayer(object):
-
-    def __init__(self,w):
-        self.w=w
-
-    def forward(self,x):
-        self.x=x
-        return numpy.dot(x,self.w)
-
-    def backward(self,do):
-        dx=numpy.dot(do,self.w.T)
-        self.dw=numpy.dot(self.x.T,do)
-        return dx
-
-
-class SigmoidLayer(object):
-
-    def __init__(self):
-        self.out=None
-
-    def forward(self,x):
-        self.out=special.expit(x)
-        return self.out
-
-    def backward(self,do):
-        return do*(1.0-self.out)*self.out
-
-class SquareErrorLayer(object):
-
-    def __init__(self):
-        self.out=None
-
-    def forward(self,x,t):
-        self.out=(t-x)**2
-        return self.out
-
-    def backward(self,x,t):
-        return x-t
+from network.Layers import SquareErrorLayer,SigmoidLayer,AffineLayer
 
 
 class NeuralNetwork(object):
