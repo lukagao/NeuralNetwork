@@ -52,7 +52,7 @@ def col2img_ex(col,img_shape, filter_h, filter_w, stride=1, pad=0):
     out_w = (W + 2 * pad - filter_w) // stride + 1
     col = col.reshape(N,out_h,out_w,C,filter_h,filter_w).transpose(0,3,4,5,1,2)
     img = numpy.zeros((N, C, H + 2 * pad, W + 2 * pad))
-    for h in range(filter_h):
+    for h in range(filter_h):   
         h_max = h+out_h*stride
         for w in range(filter_w):
             w_max = w+out_w*stride

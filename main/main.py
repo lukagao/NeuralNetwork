@@ -17,14 +17,15 @@ def loopTrain():
             break
         learning_rate += 0.01
 
-def testWeight():
+def measureWeight():
     train = TrainNet(conf.input_nodes, conf.hidden_nodes, conf.output_nodes, conf.learning_rate)
+    train.do_train()
     net = train.net
     accuracy = TestNet(net).do_test()
     print(accuracy)
 
 
 if __name__=='__main__':
-    loopTrain()
-    #testWeight()
+    #loopTrain()
+    measureWeight()
 

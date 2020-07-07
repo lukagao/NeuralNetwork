@@ -1,14 +1,17 @@
 import conf
-from network.neural import NeuralNetwork
+from network.ConvNeural import ConvNeural
 import numpy
 import aircv
 
 
 
-class TrainNet(object):
-    def __init__(self,input_nodes,hidden_nodes,output_nodes,lr):
-        self.output_nodes=output_nodes
-        self.net=NeuralNetwork(input_nodes,hidden_nodes,output_nodes,lr)
+class TrainCNN(object):
+    def __init__(self,input_dim=(1,1,28,28),filter_num=30,filter_w=5,filter_h=5,pad=0,
+                 stride=1,hidden_size=100,output_size=10,w_std=0.01):
+        self.input_dim = input_dim
+        self.output_size = output_size
+        self.net=ConvNeural(input_dim=input_dim,filter_num=filter_num,filter_w=filter_w,filter_h=filter_h,pad=pad,
+                 stride=stride,hidden_size=hidden_size,output_size=output_size,w_std=w_std)
 
     def do_train(self):
         with open(conf.trainData, 'r') as trainFile:
@@ -18,12 +21,15 @@ class TrainNet(object):
                     break
                 image_array = line.split(',')
                 inputs = (numpy.asfarray(image_array[1:]) / 255.0 * 0.99) + 0.01
-                targets = numpy.zeros(self.output_nodes) + 0.01
+                inputs = inputs.reshape(*self.input_dim)
+                # print('train_input:')
+                # print(inputs)
+                targets = numpy.zeros(self.output_size) + 0.01
                 value = int(image_array[0])
                 targets[value] = 0.99
-                print('target is: '+str(value))
+                targets = targets.reshape(1,-1)
+                # print('target is: '+ str(value))
                 self.net.train(inputs, targets)
-        #self.save_weights(list(self.net.weights.values()))
         return self.net
 
     def save_weights(self):
@@ -43,5 +49,8 @@ class TrainNet(object):
             f.write('\n')
 
 
+if __name__ == '__main__':
+    train = TrainCNN()
+    train.do_train()
 
 

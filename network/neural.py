@@ -15,6 +15,7 @@ class NeuralNetwork(object):
         self.lr=lr
         self.w_keys=['Affine1','Affine2']
         self.weights = self.init_weight()
+        self.b = self.init_b()
         self.layers=self.init_layers()
         self.lastLayer=SquareErrorLayer()
 
@@ -29,6 +30,13 @@ class NeuralNetwork(object):
         weights['Affine2']=w2
         return weights
 
+    def init_b(self):
+        b = OrderedDict()
+        b['b1'] = numpy.zeros(self.hnodes)
+        b['b2'] = numpy.zeros(self.onodes)
+        return b
+
+
     def load_weights(self):
         print('use exist weights')
         with open(conf.weights, 'r') as f:
@@ -39,15 +47,17 @@ class NeuralNetwork(object):
 
     def init_layers(self):
         layers=OrderedDict()
-        layers['Affine1']=AffineLayer(self.weights['Affine1'])
+        layers['Affine1']=AffineLayer(self.weights['Affine1'],self.b['b1'])
         layers['Sigmoid1']=SigmoidLayer()
-        layers['Affine2'] = AffineLayer(self.weights['Affine2'])
+        layers['Affine2'] = AffineLayer(self.weights['Affine2'],self.b['b2'])
         layers['Sigmoid2'] = SigmoidLayer()
         return layers
 
     def error(self,inputs,targets):
         inputs=self.query(inputs)
-        return self.lastLayer.backward(inputs,targets)
+        self.lastLayer.forward(inputs,targets)
+        #return self.lastLayer.backward(inputs,targets)
+        return self.lastLayer.backward(do=1)
 
     def query(self,inputs):
         #initial inputs is initial outpus

@@ -16,13 +16,23 @@ from collections import OrderedDict
 #print(a[a>=0])
 #print(a[numpy.array([[False,True,True],[True,True,False],[True,True,True]])])
 
-o=OrderedDict()
-o['1']=[1]
-o['2']=[2]
-o['3']=[3]
+# o=OrderedDict()
+# o['1']=[1]
+# o['2']=[2]
+# o['3']=[3]
+#
+# l=list(o.values())
+# l[0].append(4)
+# l.reverse()
+# print(o)
+# print(l)
 
-l=list(o.values())
-l[0].append(4)
-l.reverse()
-print(o)
-print(l)
+class A(object):
+    pass
+
+a = A()
+b= a
+print(a)
+del a
+print(b)
+print(a)
